@@ -1,7 +1,7 @@
-import FileTypeSimpleCategorizer
+from FileTypeSimpleCategorizer import FileTypeSimpleCategorizer
 import os
 
-class FileTypeDocument(FileTypeSimpleCategorizer.FileTypeSimpleCategorizer):
+class FileTypeDocument(FileTypeSimpleCategorizer):
     @property 
     def type_id(self):
         return 'Document'
@@ -9,9 +9,9 @@ class FileTypeDocument(FileTypeSimpleCategorizer.FileTypeSimpleCategorizer):
     def __init__(self):
         extensions = [".txt", ".rtf", ".doc", ".xdoc", ".xls"]
         metadata = {'Category':'', 'Subcategory':'', 'Sub-subcategory':''}
-        FileTypeSimpleCategorizer.__init__(extensions, metadata)
+        FileTypeSimpleCategorizer.__init__(self, extensions, metadata)
         
-    def relative_path_from_metadata(metadata, fname):
+    def relative_path_from_metadata(self, metadata, fname):
         categories = [metadata['Category'], 
                       metadata['Subcategory'],
                       metadata['Sub-subcategory']]

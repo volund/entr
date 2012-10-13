@@ -1,5 +1,5 @@
 import FileType
-import os
+import os, logging
 
 class FileTypeSimpleCategorizer(FileType.FileType):
     @property
@@ -7,18 +7,18 @@ class FileTypeSimpleCategorizer(FileType.FileType):
         return "SimpleCategorizor (%s)" % self.accepted_extensions
 
     def __init__(self, accepted_extensions, default_metadata):
-        self.accepted_extensions = [ext.lower for ext in extaccepted_extensions]
+        self.accepted_extensions = [ext.lower() for ext in accepted_extensions]
         self.default_metadata = default_metadata
         
-    def can_handle_file(absolute_fname):
+    def can_handle_file(self, absolute_fname):
         fname, ext = os.path.splitext(absolute_fname)
         return ext.lower() in self.accepted_extensions
 
-    def metadata_for_file(absolute_fname):
+    def metadata_for_file(self, absolute_fname):
         return self.default_metadata
 
-    def suggestions_for_meta_field(metadata, field):
+    def suggestions_for_meta_field(self, metadata, field):
         return []
 
-    def relative_path_from_metadata(metadata, fname):
+    def relative_path_from_metadata(self, metadata, fname):
         return fname

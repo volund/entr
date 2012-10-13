@@ -10,7 +10,11 @@ class FileTypeManager:
     def type_for_file(self, absolute_fname):
         for ftype in self.file_types:
             if ftype.can_handle_file(absolute_fname):
-                return ftype.type_id
+                return ftype
 
-        return FileTypeUnknown().type_id
+        return FileTypes.FileTypeUnknown()
 
+
+    def metadata_for_file(self, absolute_fname):
+        ftype = self.type_for_file(absolute_fname)
+        return ftype.metadata_for_file(absolute_fname)

@@ -1,0 +1,5 @@
+from FileTypeManager import *
+
+f = FileTypeManager()
+print(f.type_for_file('bla.mp3'))
+print(f.type_for_file('test.doc'))

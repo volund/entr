@@ -3,7 +3,7 @@ import FileType
 class FileTypeUnknown(FileType.FileType):
     @property
     def type_id(self):
-        return 'Music'
+        return 'Unknown'
 
     def can_handle_file(self, absolute_fname):
         return True
