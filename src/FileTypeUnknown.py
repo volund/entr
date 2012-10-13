@@ -1,6 +1,10 @@
-import DocumentType
+import FileType
 
-class DocumentTypeUnknown(DocumentType.DocumentType):
+class FileTypeUnknown(FileType.FileType):
+    @property
+    def type_id(self):
+        return 'Music'
+
     def can_handle_file(self, absolute_fname):
         return True
 

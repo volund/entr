@@ -1,5 +1,9 @@
 
-class DocumentType:
+class FileType:
+    @property
+    def type_id(self):
+        return 'AbstractBase'
+
     def can_handle_file(absolute_fname):
         return False
 

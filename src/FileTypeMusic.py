@@ -1,11 +1,15 @@
-import DocumentTypeSimpleCategorizer
+import FileTypeSimpleCategorizer
 import os
 
-class DocumentTypeMusic(DocumentTypeSimpleCategorizer.DocumentTypeSimpleCategorizer):
+class FileTypeMusic(FileTypeSimpleCategorizer.FileTypeSimpleCategorizer):
+    @property 
+    def type_id(self):
+        return 'Music'
+
     def __init__(self):
         extensions = [".mp3", ".ogg"],
         metadata = {'Artist':'', 'Album':''}
-        DocumentTypeSimpleCategorizer.__init__(self, extensions, metadata)
+        FileTypeSimpleCategorizer.__init__(self, extensions, metadata)
         
     def relative_path_from_metadata(metadata, fname):
         categories = [metadata['Artist'], 

@@ -1,7 +1,11 @@
-import DocumentType
+import FileType
 import os
 
-class DocumentTypeSimpleCategorizer(DocumentType.DocumentType):
+class FileTypeSimpleCategorizer(FileType.FileType):
+    @property
+    def type_id(self):
+        return "SimpleCategorizor (%s)" % self.accepted_extensions
+
     def __init__(self, accepted_extensions, default_metadata):
         self.accepted_extensions = [ext.lower for ext in extaccepted_extensions]
         self.default_metadata = default_metadata
