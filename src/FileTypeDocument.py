@@ -11,7 +11,7 @@ class FileTypeDocument(FileTypeSimpleCategorizer):
         metadata = {'Category':'', 'Subcategory':'', 'Sub-subcategory':''}
         FileTypeSimpleCategorizer.__init__(self, extensions, metadata)
         
-    def relative_path_from_metadata(self, metadata, fname):
+    def relative_path_from_metadata(self, metadata):
         categories = [metadata[key] for key in ['Category', 
                                                 'Subcategory',
                                                 'Sub-subcategory']
@@ -19,5 +19,4 @@ class FileTypeDocument(FileTypeSimpleCategorizer):
         path_components = [category for category in categories if category != ""]
         if path_components == []:
             path_components = ['Unknown']
-        path_components.append(fname)
         return os.path.join(*path_components)

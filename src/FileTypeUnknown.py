@@ -14,5 +14,5 @@ class FileTypeUnknown(FileType.FileType):
     def suggestions_for_meta_field(self, metadata, field):
         return []
 
-    def relative_path_from_metadata(self, metadata, fname):
+    def relative_path_from_metadata(self, metadata):
         return fname

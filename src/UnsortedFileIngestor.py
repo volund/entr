@@ -6,6 +6,10 @@ class UnsortedFileIngestor:
         self.type_manager = FileTypeManager.FileTypeManager()
         self.type_manager.register_default_types()
 
+    def ingest_paths(self, paths):
+        ufiles = [self.ingest_path(path) for path in paths]
+        return ufiles
+
     def ingest_path(self, absolute_src):
         unsorted_file = UnsortedFile.UnsortedFile(absolute_src)
         return self.ingest_unsorted_file(unsorted_file)
