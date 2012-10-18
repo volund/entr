@@ -18,5 +18,5 @@ class FileTypeMusic(FileTypeSimpleCategorizer):
         if path_components == []:
             path_components = ['Unknown Artist', 'Unknown Album']
         path_components.append(fname)
-        return os.join(path_components)
+        return os.path.join(*path_components)
         

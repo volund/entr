@@ -14,7 +14,6 @@ class FileTypeManager:
 
         return FileTypes.FileTypeUnknown()
 
-
-    def metadata_for_file(self, absolute_fname):
-        ftype = self.type_for_file(absolute_fname)
-        return ftype.metadata_for_file(absolute_fname)
+#    def metadata_for_file(self, absolute_fname):
+#        ftype = self.type_for_file(absolute_fname)
+#        return ftype.metadata_for_file(absolute_fname)
