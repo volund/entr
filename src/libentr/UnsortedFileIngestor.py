@@ -1,3 +1,4 @@
+import os, fnmatch
 import FileTypeManager
 import UnsortedFile
 
@@ -5,6 +6,14 @@ class UnsortedFileIngestor:
     def __init__(self):
         self.type_manager = FileTypeManager.FileTypeManager()
         self.type_manager.register_default_types()
+
+    def ingest_directory(self, path, pattern="[!.]*"):
+        paths = []
+        for root, dirnames, filenames in os.walk(path):
+            for fname in fnmatch.filter(filenames, pattern):
+                abs_src = os.path.join(root, fname)
+                paths.append(abs_src)
+        return self.ingest_paths(paths)
 
     def ingest_paths(self, paths):
         ufiles = [self.ingest_path(path) for path in paths]
