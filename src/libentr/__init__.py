@@ -1,3 +1,5 @@
+
+from FileTypeManager import FileTypeManager
 from UnsortedFileIngestor import UnsortedFileIngestor
 from UnsortedFileSorter import UnsortedFileSorter
 from SortSettings import SortSettings
