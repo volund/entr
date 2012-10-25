@@ -38,7 +38,8 @@ class Main(QtGui.QMainWindow):
             set_type_action.triggered.connect(ScopeCapturer(self.actionSetType, ftype))
 
     def actionFileAdd(self):
-        fpath = str(QtGui.QFileDialog.getExistingDirectory(self, "Select Directory"))
+        dialog_path = QtGui.QFileDialog.getExistingDirectory(self, "Select Directory")
+        fpath = libentr.utils.qstring_as_unicode(dialog_path)
         unsorted_files = self.ingestor.ingest_directory(fpath)
         self.model.append_unsorted_files(unsorted_files)
 

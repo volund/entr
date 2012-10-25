@@ -31,9 +31,6 @@
       </property>
      </widget>
     </item>
-    <item>
-     <widget class="QListView" name="metadata_view"/>
-    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
