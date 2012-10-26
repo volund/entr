@@ -1,3 +1,4 @@
+import collections
 from SortActionMove import SortActionMove
 
 class FileType:
@@ -13,7 +14,7 @@ class FileType:
         return False
 
     def metadata_for_file(self, absolute_fname):
-        return {}
+        return collections.OrderedDict()
     
     def suggestions_for_meta_field(self, metadata, field):
         return []

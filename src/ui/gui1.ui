@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>entr</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -70,6 +70,7 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionAdd"/>
+   <addaction name="actionEdit"/>
   </widget>
   <action name="actionAdd">
    <property name="text">
@@ -79,6 +80,11 @@
   <action name="actionQuit">
    <property name="text">
     <string>Quit</string>
+   </property>
+  </action>
+  <action name="actionEdit">
+   <property name="text">
+    <string>Edit</string>
    </property>
   </action>
  </widget>

@@ -1,5 +1,6 @@
+import os, collections
 from FileTypeSimpleCategorizer import FileTypeSimpleCategorizer
-import os
+
 
 class FileTypeMusic(FileTypeSimpleCategorizer):
     @property 
@@ -8,7 +9,9 @@ class FileTypeMusic(FileTypeSimpleCategorizer):
 
     def __init__(self):
         extensions = [".mp3", ".ogg"]
-        metadata = {'Artist':'', 'Album':''}
+        metadata = collections.OrderedDict()
+        metadata['Artist'] = ''
+        metadata['Album'] = ''
         FileTypeSimpleCategorizer.__init__(self, extensions, metadata)
         
     def relative_path_from_metadata(self, metadata):

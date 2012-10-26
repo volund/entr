@@ -1,5 +1,5 @@
+import os, collections
 from FileTypeSimpleCategorizer import FileTypeSimpleCategorizer
-import os
 
 class FileTypeDocument(FileTypeSimpleCategorizer):
     @property 
@@ -8,7 +8,10 @@ class FileTypeDocument(FileTypeSimpleCategorizer):
 
     def __init__(self):
         extensions = [".txt", ".rtf", ".doc", ".xdoc", ".xls"]
-        metadata = {'Category':'', 'Subcategory':'', 'Sub-subcategory':''}
+        metadata = collections.OrderedDict()
+        metadata['Category'] = ''
+        metadata['Subcategory'] = ''
+        metadata['Sub-subcategory'] = ''
         FileTypeSimpleCategorizer.__init__(self, extensions, metadata)
         
     def relative_path_from_metadata(self, metadata):

@@ -2,6 +2,7 @@ import os, sys
 import libentr
 from PyQt4 import QtCore,QtGui
 from window_ui import Ui_MainWindow
+import editor
 from UnsortedFilesModel import *
 
 class ScopeCapturer(object):
@@ -24,7 +25,8 @@ class Main(QtGui.QMainWindow):
         self.ui.unsorted_files_view.setModel(self.model)
 
         self.ui.actionAdd.triggered.connect(self.actionFileAdd)
-
+        self.ui.actionEdit.triggered.connect(self.actionEdit)
+        
         self.ingestor = libentr.UnsortedFileIngestor()
         
         self.ui.unsorted_files_view.setColumnWidth(0, 600)
@@ -43,6 +45,19 @@ class Main(QtGui.QMainWindow):
         unsorted_files = self.ingestor.ingest_directory(fpath)
         self.model.append_unsorted_files(unsorted_files)
 
+    def actionEdit(self):
+        selected = self.ui.unsorted_files_view.selectedIndexes()
+        if (len(selected) == 0):
+            return
+        
+        model = self.ui.unsorted_files_view.model()
+        unsorted_file = model.unsorted_file_at_index(selected[0].row())
+
+        metadata = unsorted_file.metadata
+        dialog = editor.EditorDialog(metadata)
+        dialog.show()
+        dialog.exec_()
+        
     def actionSetType(self, new_ftype):
         selected = self.ui.unsorted_files_view.selectedIndexes()
         if len(selected) == 0:
