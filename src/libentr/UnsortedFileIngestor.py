@@ -25,8 +25,6 @@ class UnsortedFileIngestor:
 
     def ingest_unsorted_file(self, unsorted_file):
         ftype = self.type_manager.type_for_file(unsorted_file.absolute_src)
-        metadata = ftype.metadata_for_file(unsorted_file.absolute_src)
-        unsorted_file.file_type = ftype
-        unsorted_file.metadata = metadata
+        unsorted_file.set_type(ftype)
         return unsorted_file
         

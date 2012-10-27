@@ -11,3 +11,7 @@ class UnsortedFile:
         if (self.relative_dst) != '' and (self.relative_dst != None):
             return self.relative_dst
         return os.path.basename(self.absolute_src)
+
+    def set_type(self, new_type):
+        self.file_type = new_type
+        self.metadata = new_type.metadata_for_file(self.absolute_src)

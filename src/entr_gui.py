@@ -28,10 +28,12 @@ class Main(QtGui.QMainWindow):
         self.ui.actionEdit.triggered.connect(self.actionEdit)
         
         self.ingestor = libentr.UnsortedFileIngestor()
+        self.sort_settings = libentr.SortSettings()
         
-        self.ui.unsorted_files_view.setColumnWidth(0, 600)
-        self.ui.unsorted_files_view.setColumnWidth(1, 200)
-
+#        self.ui.unsorted_files_view.setColumnWidth(0, 600)
+#        self.ui.unsorted_files_view.setColumnWidth(1, 200)
+        self.ui.unsorted_files_view.horizontalHeader().setResizeMode(QtGui.QHeaderView.Stretch)
+        
         self.file_type_manager = libentr.FileTypeManager()
         self.file_type_manager.register_default_types()
         
@@ -39,11 +41,12 @@ class Main(QtGui.QMainWindow):
             set_type_action = self.ui.menuSet_Type.addAction(ftype)
             set_type_action.triggered.connect(ScopeCapturer(self.actionSetType, ftype))
 
+        self.ingestFolder(self.sort_settings.default_source())
+
     def actionFileAdd(self):
         dialog_path = QtGui.QFileDialog.getExistingDirectory(self, "Select Directory")
         fpath = libentr.utils.qstring_as_unicode(dialog_path)
-        unsorted_files = self.ingestor.ingest_directory(fpath)
-        self.model.append_unsorted_files(unsorted_files)
+        self.ingestFolder(fpath)
 
     def actionEdit(self):
         selected = self.ui.unsorted_files_view.selectedIndexes()
@@ -66,9 +69,15 @@ class Main(QtGui.QMainWindow):
         model = self.ui.unsorted_files_view.model()
         for index in selected:
             unsorted_file = model.unsorted_file_at_index(index.row())
-            unsorted_file.file_type = self.file_type_manager.type_for_id(new_ftype)
+            new_type =  self.file_type_manager.type_for_id(new_ftype)
+            unsorted_file.set_type(new_type)
             
         model.dataChanged.emit(selected[0], selected[-1])
+
+    def ingestFolder(self, fpath):
+        unsorted_files = self.ingestor.ingest_directory(fpath)
+        self.model.append_unsorted_files(unsorted_files)
+        #self.ui.unsorted_files_view.resizeColumnsToContents()
 
 def main():
     app = QtGui.QApplication(sys.argv)

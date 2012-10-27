@@ -1,3 +1,4 @@
+import libentr
 from PyQt4 import QtCore
 
 class UnsortedFilesModel(QtCore.QAbstractTableModel): 
@@ -29,7 +30,10 @@ class UnsortedFilesModel(QtCore.QAbstractTableModel):
 
         unsorted_file = self.unsorted_files[index.row()]
         if index.column() == 0:
-            return unsorted_file.absolute_src
+            fname = unsorted_file.absolute_src
+            root = libentr.SortSettings().default_source()
+            fname = fname.replace(root, "")
+            return fname
         else:
             return unsorted_file.file_type.type_id
         return QtCore.QVariant()
