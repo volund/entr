@@ -13,11 +13,14 @@ class FileType:
     def can_handle_file(self, absolute_fname):
         return False
 
-    def metadata_for_file(self, absolute_fname):
+    def metadata_template(self):
         return collections.OrderedDict()
     
+    def metadata_for_file(self, absolute_fname):
+        return self.metadata_template()
+    
     def suggestions_for_meta_field(self, metadata, field):
-        return []
+        return [].copy()
     
     def relative_path_from_metadata(self, metadata):
         return ""

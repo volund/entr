@@ -22,23 +22,45 @@ class UnsortedFilesModel(QtCore.QAbstractTableModel):
         return len(self.unsorted_files) 
 
     def columnCount(self, parent=QtCore.QModelIndex()):
-        return 2
-    
+        return 4
+
+    def src_data(self, unsorted_file):
+        fname = unsorted_file.absolute_src
+        root = libentr.SortSettings().default_source()
+        fname = fname.replace(root, "")
+        return fname
+
+    def type_data(self, unsorted_file):
+        return unsorted_file.file_type.type_id
+
+    def meta_preview_data(self, unsorted_file, column):
+        meta = unsorted_file.metadata
+        keys = meta.keys()
+        if column >= len(keys):
+            return QtCore.QVariant()
+        key = keys[column]
+
+        if meta[key] != '':
+            return "{0}: {1}".format(key, meta[key])
+        return QtCore.QVariant()
+        
     def data(self, index, role): 
         if (not index.isValid()) or (role != QtCore.Qt.DisplayRole):
             return
 
         unsorted_file = self.unsorted_files[index.row()]
-        if index.column() == 0:
-            fname = unsorted_file.absolute_src
-            root = libentr.SortSettings().default_source()
-            fname = fname.replace(root, "")
-            return fname
+        col = index.column()
+        if col == 0:
+            return self.src_data(unsorted_file)
+        elif col == 1:
+            return self.type_data(unsorted_file)
         else:
-            return unsorted_file.file_type.type_id
+            return self.meta_preview_data(unsorted_file, col - 2)
+        
         return QtCore.QVariant()
     
     def headerData(self, col, orientation, role):
-        if orientation == QtCore.Qt.Horizontal and role == QtCore.Qt.DisplayRole:
-            return ["Filename", "Type"][col]
-        return QtCore.QVariant()
+        if (orientation != QtCore.Qt.Horizontal) or (role != QtCore.Qt.DisplayRole):
+            return QtCore.QVariant()
+        
+        return ["Filename", "Type", "Meta 1", "Meta 2"][col]

@@ -7,7 +7,7 @@ class FileTypeDocument(FileTypeSimpleCategorizer):
         return 'Document'
 
     def __init__(self):
-        extensions = [".txt", ".rtf", ".doc", ".xdoc", ".xls"]
+        extensions = [".txt", ".rtf", ".doc", ".xdoc", ".xls", ".pdf"]
         metadata = collections.OrderedDict()
         metadata['Category'] = ''
         metadata['Subcategory'] = ''

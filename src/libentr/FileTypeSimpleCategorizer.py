@@ -14,11 +14,11 @@ class FileTypeSimpleCategorizer(FileType.FileType):
         fname, ext = os.path.splitext(absolute_fname)
         return ext.lower() in self.accepted_extensions
 
-    def metadata_for_file(self, absolute_fname):
-        return self.default_metadata
-
+    def metadata_template(self):
+        return self.default_metadata.copy()
+    
     def suggestions_for_meta_field(self, metadata, field):
-        return []
+        return [].copy()
 
     def relative_path_from_metadata(self, metadata):
         return ""

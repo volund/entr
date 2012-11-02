@@ -14,7 +14,7 @@ class FileTypeTrash(FileType.FileType):
         return False
 
     def suggestions_for_meta_field(self, metadata, field):
-        return []
+        return [].copy()
 
     def relative_path_from_metadata(self, metadata):
         return ""

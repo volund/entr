@@ -29,9 +29,6 @@ class Main(QtGui.QMainWindow):
         
         self.ingestor = libentr.UnsortedFileIngestor()
         self.sort_settings = libentr.SortSettings()
-        
-#        self.ui.unsorted_files_view.setColumnWidth(0, 600)
-#        self.ui.unsorted_files_view.setColumnWidth(1, 200)
         self.ui.unsorted_files_view.horizontalHeader().setResizeMode(QtGui.QHeaderView.Stretch)
         
         self.file_type_manager = libentr.FileTypeManager()
@@ -54,10 +51,13 @@ class Main(QtGui.QMainWindow):
             return
         
         model = self.ui.unsorted_files_view.model()
-        unsorted_file = model.unsorted_file_at_index(selected[0].row())
-
-        metadata = unsorted_file.metadata
-        dialog = editor.EditorDialog(metadata)
+        unsorted_files = [model.unsorted_file_at_index(index.row()) for index in selected]
+        
+        metadata = unsorted_files[0].file_type.metadata_template()
+        common_metadata = libentr.MetadataUtils.common_metadata_from_unsorted_files(unsorted_files)
+        
+        dialog = editor.EditorDialog(metadata, common_metadata)
+        dialog.metadataChanged.connect(self.metadataChanged)
         dialog.show()
         dialog.exec_()
         
@@ -74,10 +74,19 @@ class Main(QtGui.QMainWindow):
             
         model.dataChanged.emit(selected[0], selected[-1])
 
+    def metadataChanged(self, new_meta):
+        selected = self.ui.unsorted_files_view.selectedIndexes()
+        if len(selected) == 0:
+            return
+        
+        model = self.ui.unsorted_files_view.model()
+        unsorted_files = [model.unsorted_file_at_index(index.row()) for index in selected]
+        libentr.MetadataUtils.apply_metadata_dictionary(new_meta, unsorted_files)
+        model.dataChanged.emit(selected[0], selected[-1])
+        
     def ingestFolder(self, fpath):
         unsorted_files = self.ingestor.ingest_directory(fpath)
         self.model.append_unsorted_files(unsorted_files)
-        #self.ui.unsorted_files_view.resizeColumnsToContents()
 
 def main():
     app = QtGui.QApplication(sys.argv)
