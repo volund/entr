@@ -60,6 +60,7 @@ class MetadataTableModel(QtCore.QAbstractTableModel):
         key = self.keys[index.row()]
         udata = libentr.utils.qstring_as_unicode(data.toString())
         self.metadata[key] = udata
+        self.enabled_fields[key] = True
         self.dataChanged.emit(index, index)
         return True
 

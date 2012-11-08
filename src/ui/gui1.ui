@@ -71,6 +71,7 @@
    </attribute>
    <addaction name="actionAdd"/>
    <addaction name="actionEdit"/>
+   <addaction name="actionSortSelected "/>
   </widget>
   <action name="actionAdd">
    <property name="text">
@@ -85,6 +86,11 @@
   <action name="actionEdit">
    <property name="text">
     <string>Edit</string>
+   </property>
+  </action>
+  <action name="actionSortSelected ">
+   <property name="text">
+    <string>Sort Selected</string>
    </property>
   </action>
  </widget>
