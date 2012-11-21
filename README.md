@@ -1,4 +1,4 @@
-entr - le réducteur d'entropie
+entr - le Réducteur d'ENTropie
 ==============================
 
 entr est un utile destiné à vous aider de nettoyer le bazar dans votre repertoire de téléchargements
