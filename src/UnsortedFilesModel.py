@@ -8,7 +8,16 @@ class UnsortedFilesModel(QtCore.QAbstractTableModel):
 
     def unsorted_file_at_index(self, row):
         return self.unsorted_files[row]
-    
+
+    def remove_unsorted_files(self, start_index, end_index):
+        print("Removing file at index: ", start_index, " ", end_index)
+        current_length = len(self.unsorted_files)
+        parent = self.index(current_length, 0)
+        
+        self.beginRemoveRows(parent, start_index, end_index)
+        del self.unsorted_files[start_index:end_index]
+        self.endRemoveRows()
+
     def append_unsorted_files(self, ufiles):
         current_length = len(self.unsorted_files)
         ufiles_length = len(ufiles)
@@ -17,6 +26,7 @@ class UnsortedFilesModel(QtCore.QAbstractTableModel):
         self.beginInsertRows(parent, current_length, current_length + ufiles_length)
         self.unsorted_files.extend(ufiles)
         self.endInsertRows()
+        self.sort(1, QtCore.Qt.AscendingOrder)
     
     def rowCount(self, parent=QtCore.QModelIndex()): 
         return len(self.unsorted_files) 
@@ -41,7 +51,7 @@ class UnsortedFilesModel(QtCore.QAbstractTableModel):
         key = keys[column]
 
         if meta[key] != '':
-            return "{0}: {1}".format(key, meta[key])
+            return QtCore.QVariant(u"{0}: {1}".format(key, meta[key]))
         return QtCore.QVariant()
         
     def data(self, index, role): 
@@ -64,3 +74,16 @@ class UnsortedFilesModel(QtCore.QAbstractTableModel):
             return QtCore.QVariant()
         
         return ["Filename", "Type", "Meta 1", "Meta 2"][col]
+
+    def sort(self, col, order):
+        reverse = (order == QtCore.Qt.DescendingOrder)
+        self.layoutAboutToBeChanged.emit()
+
+        sorters = [
+            lambda x: x.absolute_src.lower(),
+            lambda x: x.file_type.type_id.lower() + str(x.metadata),
+            lambda x: x.file_type.type_id.lower() + str(self.meta_preview_data(x, 0)),
+            lambda x: x.file_type.type_id.lower() + str(self.meta_preview_data(x, 1))
+            ]
+        self.unsorted_files.sort(key=sorters[col], reverse=reverse)
+        self.layoutChanged.emit()

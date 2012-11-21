@@ -2,7 +2,7 @@ import os, sys
 import libentr
 import editor
 from PyQt4 import QtCore,QtGui
-
+import LongMessageBox
 
 class UnsortedFilesDelegate:
     def __init__(self, model, list_view):
@@ -29,10 +29,11 @@ class UnsortedFilesDelegate:
         if len(unsorted_files) == 0:
             return
 
-        metadata = unsorted_files[0].file_type.metadata_template()
+        first_file = unsorted_files[0]
+        metadata = first_file.file_type.metadata_template()
         common_metadata = libentr.MetadataUtils.common_metadata_from_unsorted_files(unsorted_files)
         
-        dialog = editor.EditorDialog(metadata, common_metadata)
+        dialog = editor.EditorDialog(metadata, common_metadata, first_file.file_type)
         dialog.metadataChanged.connect(self.metadataChanged)
         dialog.show()
         dialog.exec_()
@@ -51,9 +52,28 @@ class UnsortedFilesDelegate:
 
     def actionSortSelected(self):
         unsorted_files = self.selectedUnsortedFiles()
-        for unsorted_file in unsorted_files:
-            self.sorter.sort_file(unsorted_file)
+        indices = [index.row() for index in self.selectedIndicies()]
+        indices.sort()
+        indices.reverse()
+        print(indices)
 
+        failed = []
+        for index, unsorted_file in zip(indices, unsorted_files):
+            try:
+                self.sorter.sort_file(unsorted_file)
+                self.model.remove_unsorted_files(index, index + 1)
+            except:
+                err_type, val = sys.exc_info()[:2]
+                print(u"ERR: ", err_type, " ", val)
+                failed.append((unsorted_file, err_type, str(val)))
+
+        if (len(failed) > 0):
+            self.show_failed_dialog_message(failed)
+
+
+    def rowDoubleClicked(self, index):
+        self.actionEdit()
+        
 # Events
     def metadataChanged(self, new_meta):
         unsorted_files = self.selectedUnsortedFiles()
@@ -69,6 +89,7 @@ class UnsortedFilesDelegate:
     def ingestFolder(self, fpath):
         unsorted_files = self.ingestor.ingest_directory(fpath)
         self.model.append_unsorted_files(unsorted_files)
+        self.list_view.resizeEvent(None)
 
     def selectedUnsortedFiles(self):
         selected = self.selectedIndicies()
@@ -79,3 +100,11 @@ class UnsortedFilesDelegate:
         selected = self.list_view.selectedIndexes()
         indicies = [index for index in selected if index.column() == 0]
         return indicies
+
+    def show_failed_dialog_message(self, failed):
+        failures = [(fail[0].absolute_src, str(fail[2])) for fail in failed]
+        msgs = u"<br/><br/>".join([u"<b>{0}</b>: {1}".format(fname, err) for (fname, err) in failures])
+        msg = u"Could not move the following files: <br/><br/>{0}".format(msgs)
+        msgbox = LongMessageBox.LongMessageBox(self.list_view, msg)
+        msgbox.show()
+

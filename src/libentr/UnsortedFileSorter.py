@@ -1,4 +1,5 @@
 import os.path
+import shutil
 
 class UnsortedFileSorter:
     def sort_files(self, unsorted_files):
@@ -13,7 +14,8 @@ class UnsortedFileSorter:
         type_folder = ftype.type_id
         relative_path = ftype.relative_path_from_metadata(unsorted_file.metadata)
         dest_name = unsorted_file.final_relative_filename()
-        relative_dest = os.path.join(type_folder, relative_path, dest_name)
+        path_1 = os.path.join(type_folder, relative_path)
+        relative_dest = os.path.join(path_1, dest_name)
 
         ftype.sort_action.sort_unsorted_file(unsorted_file, relative_dest)
         

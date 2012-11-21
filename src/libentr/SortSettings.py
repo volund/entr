@@ -1,5 +1,5 @@
 class SortSettings:
-    settings = {'primary_destination_root':'',
+    settings = {'primary_destination_root':'/Users/amos/',
                 'default_source':'/Users/amos/Downloads/',
                 'trash_destination':''}
     

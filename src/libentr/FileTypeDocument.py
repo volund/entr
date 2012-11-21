@@ -4,7 +4,7 @@ from FileTypeSimpleCategorizer import FileTypeSimpleCategorizer
 class FileTypeDocument(FileTypeSimpleCategorizer):
     @property 
     def type_id(self):
-        return 'Document'
+        return 'Documents'
 
     def __init__(self):
         extensions = [".txt", ".rtf", ".doc", ".xdoc", ".xls", ".pdf"]

@@ -9,7 +9,7 @@ class UnsortedFileIngestor:
 
     def ingest_directory(self, path, pattern="[!.]*"):
         paths = []
-        for root, dirnames, filenames in os.walk(path):
+        for root, dirnames, filenames in os.walk(unicode(path)):
             for fname in fnmatch.filter(filenames, pattern):
                 abs_src = os.path.join(root, fname)
                 paths.append(abs_src)

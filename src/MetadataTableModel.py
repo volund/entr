@@ -39,7 +39,7 @@ class MetadataTableModel(QtCore.QAbstractTableModel):
         if (role == QtCore.Qt.CheckStateRole) and (index.column() == 0):
             return self.enabled_fields[key]
 
-        if (role != QtCore.Qt.DisplayRole):
+        if not role in (QtCore.Qt.DisplayRole, QtCore.Qt.EditRole):
             return QtCore.QVariant()
 
         if index.column() == 0:
