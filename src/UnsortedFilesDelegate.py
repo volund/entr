@@ -39,7 +39,7 @@ class UnsortedFilesDelegate:
         dialog.exec_()
         
     def actionSetType(self, new_ftype):
-        selected = self.selectedIndicies()
+        selected = self.selectedIndicies(1)
         if len(selected) == 0:
             return
         
@@ -64,7 +64,6 @@ class UnsortedFilesDelegate:
                 self.model.remove_unsorted_files(index, index + 1)
             except:
                 err_type, val = sys.exc_info()[:2]
-                print(u"ERR: ", err_type, " ", val)
                 failed.append((unsorted_file, err_type, str(val)))
 
         if (len(failed) > 0):
@@ -96,9 +95,9 @@ class UnsortedFilesDelegate:
         unsorted_files = [self.model.unsorted_file_at_index(index.row()) for index in selected]
         return unsorted_files
 
-    def selectedIndicies(self):
+    def selectedIndicies(self, column = 0):
         selected = self.list_view.selectedIndexes()
-        indicies = [index for index in selected if index.column() == 0]
+        indicies = [index for index in selected if index.column() == column]
         return indicies
 
     def show_failed_dialog_message(self, failed):
