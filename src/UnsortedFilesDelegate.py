@@ -20,7 +20,7 @@ class UnsortedFilesDelegate:
 
 # Actions
     def actionFileAdd(self):
-        dialog_path = QtGui.QFileDialog.getExistingDirectory(self, "Select Directory")
+        dialog_path = QtGui.QFileDialog.getExistingDirectory(self.list_view, "Select Directory")
         fpath = libentr.utils.qstring_as_unicode(dialog_path)
         self.ingestFolder(fpath)
 
